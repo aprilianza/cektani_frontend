@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **CekTani – Frontend Documentation**
 
-## Getting Started
+Frontend ini adalah bagian antarmuka pengguna dari platform **CekTani**, yang dibangun untuk mempermudah petani dan masyarakat umum mengakses layanan deteksi penyakit tanaman, prakiraan cuaca, konsultasi asisten virtual, dan forum diskusi secara cepat, intuitif, dan responsif.
 
-First, run the development server:
+---
+
+## **1. Arsitektur Frontend**
+
+- **Framework**: Next.js – React framework dengan dukungan SSR & SSG.
+- **Styling**:
+    - **Tailwind CSS** → styling cepat dan konsisten.
+    - **Shadcn UI** → komponen UI siap pakai dan modern.
+- **Integrasi API**:
+    - Berkomunikasi dengan **Backend FastAPI** untuk autentikasi, manajemen data, diagnosis AI, dan forum diskusi.
+    - Berkomunikasi dengan **Openmeteo** untuk mendapatkan data cuaca
+- **Optimasi UX**:
+    - Responsif di semua perangkat (mobile, tablet, desktop).
+    - Desain intuitif untuk pengguna dengan latar belakang pendidikan beragam.
+
+---
+## **2. Halaman pada Frontend**
+
+1. **Landing Page**
+    - Tampilan awal aplikasi.
+    - Menampilkan informasi umum tentang CekTani, manfaat, dan fitur utama.
+    - Tombol navigasi untuk login atau registrasi.
+2. **Dashboard Utama**
+    - Ringkasan tanaman pengguna.
+    - Informasi cuaca terkini.
+    - Riwayat diagnosis singkat.
+    - Navigasi cepat ke halaman lain.
+3. **Asisten Virtual**
+    - Chat interaktif dengan *Pak Tani* (AI berbasis Gemini + RAG).
+    - Menjawab pertanyaan pertanian secara kontekstual.
+    - Dapat memanfaatkan data cuaca dan riwayat diagnosis.
+4. **Kelola Tanaman**
+    - Menampilkan daftar tanaman pengguna.
+    - Form tambah tanaman baru.
+    - Edit atau hapus tanaman.
+    - Melihat riwayat diagnosis tanaman.
+5. **Forum Diskusi**
+    - Menampilkan daftar topik diskusi komunitas.
+    - Membuat diskusi baru.
+    - Membalas dan mengedit postingan.
+
+---
+
+## **3. Instalasi & Menjalankan Frontend**
 
 ```bash
+
+# Clone repository
+git clone https://github.com/username/cek-tani-frontend.git
+cd cek-tani-frontend
+
+# Install dependencies
+npm install
+
+# Jalankan development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Buka di browser
+http://localhost:3000
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## **4. Konfigurasi Environment**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Buat file `.env.local` untuk menyimpan URL backend dan API eksternal:
 
-## Learn More
+```
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8080
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## **5. Alur Integrasi dengan Backend**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Frontend melakukan request HTTP ke endpoint backend:
 
-## Deploy on Vercel
+- Autentikasi → `/auth/*`
+- Data tanaman → `/plants/*`
+- Diagnosis → `/diagnose/*`
+- Chatbot → `/ai/chatbot`
+- Cuaca → `/ai/weather/analyze`
+- Forum → `/discussions/*`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
