@@ -12,6 +12,7 @@ Frontend ini adalah bagian antarmuka pengguna dari platform **CekTani**, yang di
     - **Shadcn UI** → komponen UI siap pakai dan modern.
 - **Integrasi API**:
     - Berkomunikasi dengan **Backend FastAPI** untuk autentikasi, manajemen data, diagnosis AI, dan forum diskusi.
+    - Berkomunikasi dengan **Backend FastAPI** untuk mendapatkan data cuaca
 - **Optimasi UX**:
     - Responsif di semua perangkat (mobile, tablet, desktop).
     - Desain intuitif untuk pengguna dengan latar belakang pendidikan beragam.
@@ -44,7 +45,7 @@ Frontend ini adalah bagian antarmuka pengguna dari platform **CekTani**, yang di
 
 ---
 
-## **4. Instalasi & Menjalankan Frontend**
+## **3. Instalasi & Menjalankan Frontend**
 
 ```bash
 
@@ -65,7 +66,7 @@ http://localhost:3000
 
 ---
 
-## **5. Konfigurasi Environment**
+## **4. Konfigurasi Environment**
 
 Buat file `.env.local` untuk menyimpan URL backend dan API eksternal:
 
@@ -75,7 +76,7 @@ NEXT_PUBLIC_API_URL=http://127.0.0.1:8080
 
 ---
 
-## **6. Alur Integrasi dengan Backend**
+## **5. Alur Integrasi dengan Backend**
 
 Frontend melakukan request HTTP ke endpoint backend:
 
