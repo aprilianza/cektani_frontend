@@ -210,7 +210,7 @@ const ForumDiskusi = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-green-100 rounded-lg">
-                <Sprout className="h-6 w-6 text-green-600" />
+                <MessageCircle className="h-6 w-6 text-green-600" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Forum CekTani</h1>
