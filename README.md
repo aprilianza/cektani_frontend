@@ -17,35 +17,30 @@ Frontend ini adalah bagian antarmuka pengguna dari platform **CekTani**, yang di
     - Desain intuitif untuk pengguna dengan latar belakang pendidikan beragam.
 
 ---
+## **2. Halaman pada Frontend**
 
-## **2. Fitur Pada Frontend**
-
-1. **Autentikasi Pengguna**
-    - Registrasi dan login dengan validasi form.
-    - Penyimpanan token JWT di local storage.
-
+1. **Landing Page**
+    - Tampilan awal aplikasi.
+    - Menampilkan informasi umum tentang CekTani, manfaat, dan fitur utama.
+    - Tombol navigasi untuk login atau registrasi.
 2. **Dashboard Utama**
-    - Ringkasan tanaman, cuaca terkini, dan riwayat diagnosis.
-    - Navigasi cepat ke semua fitur.
-3. **AI Diagnosis**
-    - Upload foto daun untuk deteksi penyakit.
-    - Menampilkan hasil diagnosis dari model YOLOv11n.
-    - Menampilkan saran penanganan dari asisten virtual.
-4. **Analisis Cuaca**
-    - Ambil lokasi pengguna.
-    - Menampilkan prakiraan cuaca dari Open Meteo API.
-    - Analisis kondisi cuaca terkait pertanian.
-5. **Chatbot Pak Tani**
-    - Chat interaktif dengan asisten virtual berbasis Gemini + RAG.
-    - Jawaban dikontekstualisasikan dari basis pengetahuan ChromaDB.
-6. **Manajemen Tanaman**
-    - List tanaman yang dimiliki pengguna.
-    - Tambah, edit, hapus tanaman.
-    - Melihat riwayat diagnosis setiap tanaman.
-7. **Forum Diskusi**
-    - List topik diskusi.
+    - Ringkasan tanaman pengguna.
+    - Informasi cuaca terkini.
+    - Riwayat diagnosis singkat.
+    - Navigasi cepat ke halaman lain.
+3. **Asisten Virtual**
+    - Chat interaktif dengan *Pak Tani* (AI berbasis Gemini + RAG).
+    - Menjawab pertanyaan pertanian secara kontekstual.
+    - Dapat memanfaatkan data cuaca dan riwayat diagnosis.
+4. **Kelola Tanaman**
+    - Menampilkan daftar tanaman pengguna.
+    - Form tambah tanaman baru.
+    - Edit atau hapus tanaman.
+    - Melihat riwayat diagnosis tanaman.
+5. **Forum Diskusi**
+    - Menampilkan daftar topik diskusi komunitas.
     - Membuat diskusi baru.
-    - Balas diskusi dan edit postingan.
+    - Membalas dan mengedit postingan.
 
 ---
 
