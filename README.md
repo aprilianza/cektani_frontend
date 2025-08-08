@@ -12,7 +12,7 @@ Frontend ini adalah bagian antarmuka pengguna dari platform **CekTani**, yang di
     - **Shadcn UI** → komponen UI siap pakai dan modern.
 - **Integrasi API**:
     - Berkomunikasi dengan **Backend FastAPI** untuk autentikasi, manajemen data, diagnosis AI, dan forum diskusi.
-    - Berkomunikasi dengan **Backend FastAPI** untuk mendapatkan data cuaca
+    - Berkomunikasi dengan **Openmeteo** untuk mendapatkan data cuaca
 - **Optimasi UX**:
     - Responsif di semua perangkat (mobile, tablet, desktop).
     - Desain intuitif untuk pengguna dengan latar belakang pendidikan beragam.
