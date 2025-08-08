@@ -578,12 +578,9 @@ export default function DashboardPage() {
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-xl font-semibold flex items-center gap-2">
-                      <MapPin className="w-5 h-5" />
-                      Prakiraan Cuaca
-                    </CardTitle>
-                    <CardDescription className="text-blue-100 flex items-center gap-1">
-                      <Navigation className="w-4 h-4" />
+                    <CardTitle className="text-xl font-semibold flex items-center gap-2">Prakiraan Cuaca</CardTitle>
+                    <CardDescription className="text-blue-100 flex items-center gap-1 mt-1">
+                      <MapPin className="w-4 h-4" />
                       {weatherData?.location || 'Memuat lokasi...'}
                     </CardDescription>
                     {locationError && <p className="text-xs text-yellow-200 mt-1">{locationError}</p>}
@@ -880,10 +877,9 @@ export default function DashboardPage() {
             </AlertDialogContent>
           </AlertDialog>
         )}
-        {/* Diagnosis Result Dialog */}
         {showResultDialog && diagnosisResult && (
           <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] flex flex-col">
+            <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Hasil Diagnosis Cepat</h3>
                 <Button
@@ -898,7 +894,7 @@ export default function DashboardPage() {
                 </Button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 flex-1 overflow-y-auto">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700">Status:</span>
                   <Badge className={`${isHealthyDiagnosis(diagnosisResult.result) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} text-xs`}>{isHealthyDiagnosis(diagnosisResult.result) ? 'Sehat' : 'Perlu Perhatian'}</Badge>
@@ -934,7 +930,8 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-        )}{' '}
+        )}
+
         {/* Modal Analisis Cuaca */}
         {showAnalysisModal && (
           <AlertDialog open={showAnalysisModal} onOpenChange={setShowAnalysisModal}>

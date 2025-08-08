@@ -5,6 +5,7 @@ import { AuthForm } from '@/components/auth/auth-form'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { loginUser } from '@/lib/auth'
+import { toast } from 'sonner'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -14,7 +15,7 @@ export default function LoginPage() {
       await loginUser(values.email, values.password)
       router.push('/dashboard')
     } catch (error: any) {
-      alert(error.message)
+      toast.error(error.message)
     }
   }
 

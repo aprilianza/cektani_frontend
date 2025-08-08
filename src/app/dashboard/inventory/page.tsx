@@ -12,7 +12,7 @@ import { getPlants, addPlant, deletePlant, diagnosePlant, updatePlant, deleteDia
 import { getSession } from '@/lib/auth';
 import { formatMessage } from '@/lib/formatter';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-
+import { useRouter } from 'next/navigation';
 const PlantInventoryPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,21 +37,24 @@ const PlantInventoryPage = () => {
   const [editPlantData, setEditPlantData] = useState({ name: '', description: '' });
   
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const router = useRouter();
   // Fetch plants on component mount
   useEffect(() => {
     const fetchPlants = async () => {
       try {
         setLoading(true);
         const session = await getSession();
+        
         if (!session || !session.token) {
-          throw new Error('Session tidak ditemukan. Silakan login ulang.');
+          router.push("/auth/login");
+          return; 
         }
+
         const data = await getPlants(session.token);
         setPlants(data);
         setError(null);
       } catch (err) {
-        setError('Gagal memuat data tanaman. Silakan coba lagi.');
+        setError("Gagal memuat data tanaman. Silakan coba lagi.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -59,7 +62,7 @@ const PlantInventoryPage = () => {
     };
 
     fetchPlants();
-  }, []);
+  }, [router]); 
 
   // Check if diagnosis result is healthy
   const isHealthyDiagnosis = (result: string | undefined) => {
@@ -720,71 +723,93 @@ const PlantInventoryPage = () => {
         </AlertDialog>
       )}
       
-      {/* Diagnosis Result Dialog */}
-      {showResultDialog && diagnosisResult && (
-        <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">Hasil Diagnosis</h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setShowResultDialog(false);
-                  setShowDiagnosisDialog(false);
-                  setSelectedFile(null);
-                  setSelectedPlant(null);
-                }}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+{/* Diagnosis Result Dialog */}
+{showResultDialog && diagnosisResult && (
+  <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] flex flex-col">
+      
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold">Hasil Diagnosis</h3>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            setShowResultDialog(false);
+            setShowDiagnosisDialog(false);
+            setSelectedFile(null);
+            setSelectedPlant(null);
+          }}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
 
-            <div className="flex-1 overflow-y-auto space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Status:</span>
-                <Badge className={`${isHealthyDiagnosis(diagnosisResult.result) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} text-xs`}>{isHealthyDiagnosis(diagnosisResult.result) ? 'Sehat' : 'Perlu Perhatian'}</Badge>
-              </div>
+      {/* Konten utama: fixed height biar scroll hanya di sini */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden">
+        
+        {/* Kiri */}
+        <div className="space-y-4 overflow-y-auto max-h-[70vh] pr-1">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-700">Status:</span>
+            <Badge
+              className={`${
+                isHealthyDiagnosis(diagnosisResult.result)
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800'
+              } text-xs`}
+            >
+              {isHealthyDiagnosis(diagnosisResult.result) ? 'Sehat' : 'Perlu Perhatian'}
+            </Badge>
+          </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-sm font-medium text-gray-800 mb-1">{diagnosisResult.result}</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Confidence: {Math.round(diagnosisResult.confidence * 100)}%</span>
-                  <span>{formatDate(diagnosisResult.checked_at)}</span>
-                </div>
-              </div>
-
-              <div className="border rounded-lg overflow-hidden">
-                <img src={`${diagnosisResult.photo_url}`} alt="Hasil diagnosis" className="w-full h-48 object-contain bg-gray-100" />
-              </div>
-
-              {diagnosisResult.notes && (
-                <div className="border rounded-lg p-4">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Catatan:</h4>
-                  <div className="max-h-40 overflow-y-auto">
-                    <div className="text-sm text-gray-600 whitespace-pre-line">{formatMessage(diagnosisResult.notes)}</div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-4 pt-4 border-t">
-              <Button
-                onClick={() => {
-                  setShowResultDialog(false);
-                  setShowDiagnosisDialog(false);
-                  setSelectedFile(null);
-                  setSelectedPlant(null);
-                }}
-                className="w-full bg-green-600 hover:bg-green-700 text-white"
-              >
-                Tutup
-              </Button>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <p className="text-sm font-medium text-gray-800 mb-1">
+              {diagnosisResult.result}
+            </p>
+            <div className="flex items-center justify-between text-xs text-gray-500">
+              <span>Confidence: {Math.round(diagnosisResult.confidence * 100)}%</span>
+              <span>{formatDate(diagnosisResult.checked_at)}</span>
             </div>
           </div>
-        </div>
-      )}
 
+          <div className="border rounded-lg overflow-hidden">
+            <img
+              src={`${diagnosisResult.photo_url}`}
+              alt="Hasil diagnosis"
+              className="w-full h-48 object-contain bg-gray-100"
+            />
+          </div>
+        </div>
+
+        {/* Kanan */}
+        {diagnosisResult.notes && (
+          <div className="border rounded-lg p-4 overflow-y-auto max-h-[70vh]">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Catatan:</h4>
+            <div className="text-sm text-gray-600 whitespace-pre-line">
+              {formatMessage(diagnosisResult.notes)}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="mt-4 pt-4 border-t">
+        <Button
+          onClick={() => {
+            setShowResultDialog(false);
+            setShowDiagnosisDialog(false);
+            setSelectedFile(null);
+            setSelectedPlant(null);
+          }}
+          className="w-full bg-green-600 hover:bg-green-700 text-white"
+        >
+          Tutup
+        </Button>
+      </div>
+    </div>
+  </div>
+)}
       {/* History Modal */}
       {showHistory && historyPlant && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">

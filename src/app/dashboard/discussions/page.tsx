@@ -12,6 +12,7 @@ import { getSession, User as AuthUser } from '@/lib/auth';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Edit, MoreVertical, Trash2 } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { useRouter } from 'next/navigation';
 
 const ForumDiskusi = () => {
   const [discussions, setDiscussions] = useState<Discussion[]>([]);
@@ -31,15 +32,21 @@ const ForumDiskusi = () => {
   const [editingDiscussion, setEditingDiscussion] = useState<Discussion | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
+  const router = useRouter();
 
   // Fetch current user session
   useEffect(() => {
     const fetchSession = async () => {
       const user = await getSession();
-      setCurrentUser(user);
+      if (!user) {
+        router.push("/auth/login");
+      } else {
+        setCurrentUser(user);
+      }
     };
     fetchSession();
-  }, []);
+  }, [router]); 
+
 
   const fetchDiscussions = async () => {
     try {

@@ -182,9 +182,9 @@ export default function ChatbotPage() {
 
           {/* Quick Actions */}
           <div className="flex gap-2 mt-3">
-            <button onClick={() => setInputMessage('Bagaimana cara merawat tanaman hias?')} className="px-3 py-1.5 text-xs bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors">
+            <button onClick={() => setInputMessage('Bagaimana cara merawat tanaman dengan baik dan benar?')} className="px-3 py-1.5 text-xs bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors">
               <Sparkles className="w-3 h-3 inline mr-1" />
-              Merawat Tanaman Hias
+              Merawat Tanaman
             </button>
             <button onClick={() => setInputMessage('Tips berkebun untuk pemula?')} className="px-3 py-1.5 text-xs bg-emerald-100 text-emerald-700 rounded-full hover:bg-emerald-200 transition-colors">
               <Sparkles className="w-3 h-3 inline mr-1" />
