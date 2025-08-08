@@ -68,6 +68,7 @@ export default function DashboardPage() {
   const [showAnalysisModal, setShowAnalysisModal] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -485,7 +486,7 @@ export default function DashboardPage() {
       };
 
       // Kirim request ke backend
-      const response = await fetch('http://127.0.0.1:8080/ai/weather/analyze', {
+      const response = await fetch(`${API_URL}/ai/weather/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -30,12 +30,12 @@ const PlantInventoryPage = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [showHistory, setShowHistory] = useState(false);
   const [historyPlant, setHistoryPlant] = useState<Plant | null>(null);
-  
+
   // Edit plant states
   const [showEditForm, setShowEditForm] = useState(false);
   const [editingPlant, setEditingPlant] = useState<Plant | null>(null);
   const [editPlantData, setEditPlantData] = useState({ name: '', description: '' });
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   // Fetch plants on component mount
@@ -44,17 +44,17 @@ const PlantInventoryPage = () => {
       try {
         setLoading(true);
         const session = await getSession();
-        
+
         if (!session || !session.token) {
-          router.push("/auth/login");
-          return; 
+          router.push('/auth/login');
+          return;
         }
 
         const data = await getPlants(session.token);
         setPlants(data);
         setError(null);
       } catch (err) {
-        setError("Gagal memuat data tanaman. Silakan coba lagi.");
+        setError('Gagal memuat data tanaman. Silakan coba lagi.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -62,7 +62,7 @@ const PlantInventoryPage = () => {
     };
 
     fetchPlants();
-  }, [router]); 
+  }, [router]);
 
   // Check if diagnosis result is healthy
   const isHealthyDiagnosis = (result: string | undefined) => {
@@ -161,18 +161,14 @@ const PlantInventoryPage = () => {
       if (!session || !session.token) {
         throw new Error('Session tidak ditemukan. Silakan login ulang.');
       }
-      
+
       const updatedPlant = await updatePlant(session.token, editingPlant.id, {
         name: editPlantData.name,
         description: editPlantData.description,
       });
 
-      setPlants(plants.map(plant => 
-        plant.id === editingPlant.id 
-          ? { ...plant, name: updatedPlant.name, description: updatedPlant.description }
-          : plant
-      ));
-      
+      setPlants(plants.map((plant) => (plant.id === editingPlant.id ? { ...plant, name: updatedPlant.name, description: updatedPlant.description } : plant)));
+
       setShowEditForm(false);
       setEditingPlant(null);
       setEditPlantData({ name: '', description: '' });
@@ -257,22 +253,17 @@ const PlantInventoryPage = () => {
       if (!session || !session.token) {
         throw new Error('Session tidak ditemukan. Silakan login ulang.');
       }
-      
+
       await deleteDiagnosis(session.token, historyPlant.id, diagnosisId);
-      
+
       // Update plants state
-      setPlants(plants.map(plant => 
-        plant.id === historyPlant.id 
-          ? { ...plant, diagnosis: plant.diagnosis.filter(d => d.id !== diagnosisId) }
-          : plant
-      ));
-      
+      setPlants(plants.map((plant) => (plant.id === historyPlant.id ? { ...plant, diagnosis: plant.diagnosis.filter((d) => d.id !== diagnosisId) } : plant)));
+
       // Update history plant
       setHistoryPlant({
         ...historyPlant,
-        diagnosis: historyPlant.diagnosis.filter(d => d.id !== diagnosisId)
+        diagnosis: historyPlant.diagnosis.filter((d) => d.id !== diagnosisId),
       });
-      
     } catch (err) {
       setError('Gagal menghapus diagnosis');
       console.error(err);
@@ -449,10 +440,7 @@ const PlantInventoryPage = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40">
-                          <DropdownMenuItem
-                            onClick={() => openEditForm(plant)}
-                            className="cursor-pointer focus:bg-gray-100"
-                          >
+                          <DropdownMenuItem onClick={() => openEditForm(plant)} className="cursor-pointer focus:bg-gray-100">
                             <Edit className="h-4 w-4 mr-2 text-gray-600" />
                             <span>Edit</span>
                           </DropdownMenuItem>
@@ -605,23 +593,12 @@ const PlantInventoryPage = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nama Tanaman</label>
-                <Input 
-                  value={editPlantData.name} 
-                  onChange={(e) => setEditPlantData({ ...editPlantData, name: e.target.value })} 
-                  placeholder="Masukkan nama tanaman" 
-                  className="w-full" 
-                />
+                <Input value={editPlantData.name} onChange={(e) => setEditPlantData({ ...editPlantData, name: e.target.value })} placeholder="Masukkan nama tanaman" className="w-full" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                <Textarea 
-                  value={editPlantData.description} 
-                  onChange={(e) => setEditPlantData({ ...editPlantData, description: e.target.value })} 
-                  placeholder="Deskripsi tanaman (opsional)" 
-                  className="w-full" 
-                  rows={3} 
-                />
+                <Textarea value={editPlantData.description} onChange={(e) => setEditPlantData({ ...editPlantData, description: e.target.value })} placeholder="Deskripsi tanaman (opsional)" className="w-full" rows={3} />
               </div>
             </div>
 
@@ -637,11 +614,7 @@ const PlantInventoryPage = () => {
               >
                 Batal
               </Button>
-              <Button 
-                onClick={handleEditPlant} 
-                disabled={!editPlantData.name.trim()} 
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
+              <Button onClick={handleEditPlant} disabled={!editPlantData.name.trim()} className="bg-green-600 hover:bg-green-700 text-white">
                 Update
               </Button>
             </div>
@@ -722,94 +695,76 @@ const PlantInventoryPage = () => {
           </AlertDialogContent>
         </AlertDialog>
       )}
-      
-{/* Diagnosis Result Dialog */}
-{showResultDialog && diagnosisResult && (
-  <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">
-    <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] flex flex-col">
-      
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Hasil Diagnosis</h3>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            setShowResultDialog(false);
-            setShowDiagnosisDialog(false);
-            setSelectedFile(null);
-            setSelectedPlant(null);
-          }}
-        >
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
 
-      {/* Konten utama: fixed height biar scroll hanya di sini */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden">
-        
-        {/* Kiri */}
-        <div className="space-y-4 overflow-y-auto max-h-[70vh] pr-1">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">Status:</span>
-            <Badge
-              className={`${
-                isHealthyDiagnosis(diagnosisResult.result)
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800'
-              } text-xs`}
-            >
-              {isHealthyDiagnosis(diagnosisResult.result) ? 'Sehat' : 'Perlu Perhatian'}
-            </Badge>
-          </div>
-
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm font-medium text-gray-800 mb-1">
-              {diagnosisResult.result}
-            </p>
-            <div className="flex items-center justify-between text-xs text-gray-500">
-              <span>Confidence: {Math.round(diagnosisResult.confidence * 100)}%</span>
-              <span>{formatDate(diagnosisResult.checked_at)}</span>
+      {/* Diagnosis Result Dialog */}
+      {showResultDialog && diagnosisResult && (
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Hasil Diagnosis</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setShowResultDialog(false);
+                  setShowDiagnosisDialog(false);
+                  setSelectedFile(null);
+                  setSelectedPlant(null);
+                }}
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
-          </div>
 
-          <div className="border rounded-lg overflow-hidden">
-            <img
-              src={`${diagnosisResult.photo_url}`}
-              alt="Hasil diagnosis"
-              className="w-full h-48 object-contain bg-gray-100"
-            />
+            {/* Konten utama: fixed height biar scroll hanya di sini */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden">
+              {/* Kiri */}
+              <div className="space-y-4 overflow-y-auto max-h-[70vh] pr-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Status:</span>
+                  <Badge className={`${isHealthyDiagnosis(diagnosisResult.result) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} text-xs`}>{isHealthyDiagnosis(diagnosisResult.result) ? 'Sehat' : 'Perlu Perhatian'}</Badge>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-sm font-medium text-gray-800 mb-1">{diagnosisResult.result}</p>
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>Confidence: {Math.round(diagnosisResult.confidence * 100)}%</span>
+                    <span>{formatDate(diagnosisResult.checked_at)}</span>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg overflow-hidden">
+                  <img src={`${diagnosisResult.photo_url}`} alt="Hasil diagnosis" className="w-full h-48 object-contain bg-gray-100" />
+                </div>
+              </div>
+
+              {/* Kanan */}
+              {diagnosisResult.notes && (
+                <div className="border rounded-lg p-4 overflow-y-auto max-h-[70vh]">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Catatan:</h4>
+                  <div className="text-sm text-gray-600 whitespace-pre-line">{formatMessage(diagnosisResult.notes)}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="mt-4 pt-4 border-t">
+              <Button
+                onClick={() => {
+                  setShowResultDialog(false);
+                  setShowDiagnosisDialog(false);
+                  setSelectedFile(null);
+                  setSelectedPlant(null);
+                }}
+                className="w-full bg-green-600 hover:bg-green-700 text-white"
+              >
+                Tutup
+              </Button>
+            </div>
           </div>
         </div>
-
-        {/* Kanan */}
-        {diagnosisResult.notes && (
-          <div className="border rounded-lg p-4 overflow-y-auto max-h-[70vh]">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Catatan:</h4>
-            <div className="text-sm text-gray-600 whitespace-pre-line">
-              {formatMessage(diagnosisResult.notes)}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Footer */}
-      <div className="mt-4 pt-4 border-t">
-        <Button
-          onClick={() => {
-            setShowResultDialog(false);
-            setShowDiagnosisDialog(false);
-            setSelectedFile(null);
-            setSelectedPlant(null);
-          }}
-          className="w-full bg-green-600 hover:bg-green-700 text-white"
-        >
-          Tutup
-        </Button>
-      </div>
-    </div>
-  </div>
-)}
+      )}
       {/* History Modal */}
       {showHistory && historyPlant && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center p-4 z-50">
