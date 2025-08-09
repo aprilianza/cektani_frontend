@@ -167,7 +167,7 @@ const DesktopSidebar = () => {
         <div className="flex-1">
           {open && (
             <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 transition-opacity duration-300 opacity-100">
-              Main Menu
+              Menu Utama
             </div>
           )}
 
