@@ -141,7 +141,7 @@ const DesktopSidebar = () => {
 
   return (
     <motion.div
-      className={cn('h-full px-4 py-6 hidden md:flex md:flex-col bg-white border-r border-gray-200 shadow-sm shrink-0')}
+      className="h-full px-4 py-6 hidden md:flex md:flex-col bg-white border-r border-gray-200 shadow-sm shrink-0 overflow-hidden"
       animate={{
         width: open ? '280px' : '80px',
       }}
@@ -151,33 +151,25 @@ const DesktopSidebar = () => {
     >
       <div className="flex flex-1 flex-col gap-6">
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center">
+        <div className={cn("flex items-center", open ? "gap-3" : "justify-center")}>
+          <div className="flex h-10 w-10 items-center justify-center shrink-0">
             <Image src="/Logo.svg" alt="CekTani Logo" width={40} height={40} className="object-contain" />
           </div>
-          <motion.div
-            animate={{
-              opacity: open ? 1 : 0,
-              display: open ? 'block' : 'none',
-            }}
-            transition={{ duration: 0.2 }}
-          >
-            <h1 className="text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent whitespace-nowrap">CekTani</h1>
-            <p className="text-xs text-slate-500 font-medium whitespace-nowrap">Smart Plant Care</p>
-          </motion.div>
+          {open && (
+            <div className="transition-opacity duration-300 opacity-100">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent whitespace-nowrap">CekTani</h1>
+              <p className="text-xs text-slate-500 font-medium whitespace-nowrap">Smart Plant Care</p>
+            </div>
+          )}
         </div>
+
         {/* Navigation */}
         <div className="flex-1">
-          <motion.div
-            animate={{
-              opacity: open ? 1 : 0,
-              height: open ? 'auto' : 0,
-            }}
-            transition={{ duration: 0.2 }}
-            className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 overflow-hidden"
-          >
-            {open && 'Main Menu'}
-          </motion.div>
+          {open && (
+            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 transition-opacity duration-300 opacity-100">
+              Main Menu
+            </div>
+          )}
 
           <div className="space-y-2">
             {mainItems.map((item) => (
@@ -185,53 +177,39 @@ const DesktopSidebar = () => {
             ))}
           </div>
         </div>
+
         {/* User Profile & Logout */}
         <div className="space-y-3">
           {user && (
-            <motion.div
-              animate={{
-                opacity: open ? 1 : 0.7,
-              }}
-              className={cn('flex items-center transition-all duration-200', open ? 'gap-3 p-3 bg-gradient-to-r from-slate-50 to-white rounded-xl border border-slate-200' : 'justify-center')}
-            >
-              <div className="relative">
+            <div className={cn('flex items-center transition-all duration-300', open ? 'gap-3 p-3 bg-gradient-to-r from-slate-50 to-white rounded-xl border border-slate-200' : 'justify-center p-2')}>
+              <div className="relative shrink-0">
                 <div className={cn('flex items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold shadow-md', open ? 'h-10 w-10 text-sm' : 'h-8 w-8 text-xs')}>
                   {user.username.charAt(0).toUpperCase()}
                 </div>
                 <div className={cn('absolute bg-green-500 rounded-full border-2 border-white', open ? '-bottom-1 -right-1 w-4 h-4' : '-bottom-0.5 -right-0.5 w-2.5 h-2.5')}></div>
               </div>
-              <motion.div
-                animate={{
-                  opacity: open ? 1 : 0,
-                  width: open ? 'auto' : 0,
-                }}
-                transition={{ duration: 0.2 }}
-                className="overflow-hidden"
-              >
-                {open && (
-                  <div>
-                    <p className="font-semibold text-slate-800">{user.username}</p>
-                    <p className="text-xs text-green-600 font-medium">Online</p>
-                  </div>
-                )}
-              </motion.div>
-            </motion.div>
+              {open && (
+                <div className="transition-opacity duration-300 opacity-100">
+                  <p className="font-semibold text-slate-800 whitespace-nowrap">{user.username}</p>
+                  <p className="text-xs text-green-600 font-medium whitespace-nowrap">Online</p>
+                </div>
+              )}
+            </div>
           )}
 
-          <motion.div
-            animate={{
-              opacity: open ? 1 : 0,
-              height: open ? 'auto' : 0,
-              display: open ? 'flex' : 'none',
-            }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <Button onClick={handleLogout} disabled={isLoading} variant="ghost" className={cn('w-full transition-all duration-200 justify-start gap-3 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 border rounded-lg p-3')}>
-              <LogOut className="w-4 h-4 shrink-0" />
-              <span>{isLoading ? 'Logging out...' : 'Logout'}</span>
-            </Button>
-          </motion.div>
+          {open && (
+            <div className="transition-all duration-300 opacity-100 max-h-20">
+              <Button 
+                onClick={handleLogout} 
+                disabled={isLoading} 
+                variant="ghost" 
+                className="w-full transition-all duration-200 justify-start gap-3 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 border rounded-lg p-3"
+              >
+                <LogOut className="w-4 h-4 shrink-0" />
+                <span className="whitespace-nowrap">{isLoading ? 'Logging out...' : 'Logout'}</span>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
@@ -294,10 +272,17 @@ const MobileSidebar = () => {
           <Menu className="text-gray-600 w-6 h-6" />
         </button>
       </div>
+
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ x: '-100%', opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: '-100%', opacity: 0 }} transition={{ duration: 0.3, ease: 'easeInOut' }} className="fixed inset-0 bg-white z-50 flex flex-col md:hidden">
+          <motion.div 
+            initial={{ x: '-100%' }} 
+            animate={{ x: 0 }} 
+            exit={{ x: '-100%' }} 
+            transition={{ duration: 0.3, ease: 'easeInOut' }} 
+            className="fixed inset-0 bg-white z-50 flex flex-col md:hidden"
+          >
             {/* Header */}
             <div className="shrink-0 flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center gap-3">
@@ -313,6 +298,7 @@ const MobileSidebar = () => {
                 <X className="w-6 h-6 text-gray-600" />
               </button>
             </div>
+
             {/* Content */}
             <div className="flex-1 px-6 py-6 overflow-y-auto">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Main Menu</div>
@@ -368,28 +354,19 @@ const SidebarLink = ({ link, isActive, onClick }: { link: SidebarLink; isActive:
     <button
       onClick={onClick}
       className={cn(
-        'w-full flex items-center transition-all duration-200 group text-left',
+        'w-full flex items-center transition-all duration-300 group text-left',
         open ? 'gap-4 p-4 rounded-xl' : 'justify-center p-3 rounded-lg',
         isActive ? (open ? 'bg-green-50 text-green-700 border-l-4 border-green-500' : 'bg-green-50 text-green-700') : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
       )}
     >
-      <link.icon className={cn('shrink-0', open ? 'w-5 h-5' : 'w-5 h-5', isActive ? 'text-green-600' : 'text-gray-500 group-hover:text-gray-700')} />
+      <link.icon className={cn('shrink-0 w-5 h-5', isActive ? 'text-green-600' : 'text-gray-500 group-hover:text-gray-700')} />
 
-      <motion.div
-        animate={{
-          opacity: open ? 1 : 0,
-          width: open ? 'auto' : 0,
-        }}
-        transition={{ duration: 0.2 }}
-        className="overflow-hidden"
-      >
-        {open && (
-          <div>
-            <div className="font-medium">{link.title}</div>
-            <div className="text-xs text-gray-500">{link.description}</div>
-          </div>
-        )}
-      </motion.div>
+      {open && (
+        <div className="transition-opacity duration-300 opacity-100">
+          <div className="font-medium whitespace-nowrap">{link.title}</div>
+          <div className="text-xs text-gray-500 whitespace-nowrap">{link.description}</div>
+        </div>
+      )}
     </button>
   );
 };
