@@ -87,4 +87,9 @@ Frontend melakukan request HTTP ke endpoint backend:
 - Cuaca → `/ai/weather/analyze`
 - Forum → `/discussions/*`
 
+---
+
+## **6. Video Demo**
+
+https://youtu.be/2boQ08X0iUM?si=qXXRBTEGYvZB73Yd
 
