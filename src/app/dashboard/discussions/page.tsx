@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { MessageCircle, Plus, Send, Search, Clock, Sprout, AlertCircle } from 'lucide-react';
+import { MessageCircle, Plus, Send, Search, Clock, AlertCircle } from 'lucide-react';
 import { getDiscussions, createDiscussion, createReply, Discussion, updateDiscussion, deleteDiscussion } from '@/lib/discussion';
 import { getSession, User as AuthUser } from '@/lib/auth';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';

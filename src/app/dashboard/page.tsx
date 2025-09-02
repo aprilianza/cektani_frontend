@@ -5,7 +5,7 @@ import { getSession } from '@/lib/auth';
 import { getPlants, quickDiagnose } from '@/lib/plant';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Cloud, CloudRain, Sun, Thermometer, Droplets, Wind, MessageSquare, Stethoscope, BarChart3, Leaf, AlertTriangle, CheckCircle, MapPin, Calendar, TrendingUp, Navigation, Loader2, X, Upload, RefreshCw } from 'lucide-react';
+import { Cloud, CloudRain, Sun, Thermometer, Droplets, Wind, MessageSquare, Stethoscope, BarChart3, Leaf, AlertTriangle, CheckCircle, MapPin, Calendar, TrendingUp, Loader2, X, Upload, RefreshCw } from 'lucide-react';
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { formatMessage } from '@/lib/formatter';
@@ -30,7 +30,7 @@ interface WeatherData {
     precipitation: number;
     cloudCover: number;
     windSpeed: number;
-    icon: any;
+    icon: React.ElementType;
   }>;
 }
 
@@ -697,7 +697,7 @@ export default function DashboardPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-green-100 mb-4 text-sm">"Ada masalah apa dengan tanamanmu hari ini?"</p>
+                <p className="text-green-100 mb-4 text-sm">{'Ada masalah apa dengan tanamanmu hari ini?'}</p>
                 <Button onClick={handleChatbot} className="w-full bg-white text-green-600 hover:bg-green-50">
                   <MessageSquare className="w-4 h-4 mr-2" />
                   Tanya Pak Tani

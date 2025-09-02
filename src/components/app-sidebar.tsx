@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Bot, Leaf, LogOut, Sprout, MessageCircle, Zap, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Bot, Leaf, LogOut, MessageCircle, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { logoutUser, getSession } from '@/lib/auth';
@@ -12,7 +12,7 @@ import Image from 'next/image';
 interface SidebarLink {
   title: string;
   url: string;
-  icon: React.ComponentType<any>;
+  icon: React.ElementType;
   description: string;
   gradient: string;
 }
@@ -151,7 +151,7 @@ const DesktopSidebar = () => {
     >
       <div className="flex flex-1 flex-col gap-6">
         {/* Logo */}
-        <div className={cn("flex items-center", open ? "gap-3" : "justify-center")}>
+        <div className={cn('flex items-center', open ? 'gap-3' : 'justify-center')}>
           <div className="flex h-10 w-10 items-center justify-center shrink-0">
             <Image src="/Logo.svg" alt="CekTani Logo" width={40} height={40} className="object-contain" />
           </div>
@@ -165,11 +165,7 @@ const DesktopSidebar = () => {
 
         {/* Navigation */}
         <div className="flex-1">
-          {open && (
-            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 transition-opacity duration-300 opacity-100">
-              Menu Utama
-            </div>
-          )}
+          {open && <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 transition-opacity duration-300 opacity-100">Menu Utama</div>}
 
           <div className="space-y-2">
             {mainItems.map((item) => (
@@ -199,12 +195,7 @@ const DesktopSidebar = () => {
 
           {open && (
             <div className="transition-all duration-300 opacity-100 max-h-20">
-              <Button 
-                onClick={handleLogout} 
-                disabled={isLoading} 
-                variant="ghost" 
-                className="w-full transition-all duration-200 justify-start gap-3 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 border rounded-lg p-3"
-              >
+              <Button onClick={handleLogout} disabled={isLoading} variant="ghost" className="w-full transition-all duration-200 justify-start gap-3 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 border rounded-lg p-3">
                 <LogOut className="w-4 h-4 shrink-0" />
                 <span className="whitespace-nowrap">{isLoading ? 'Logging out...' : 'Logout'}</span>
               </Button>
@@ -276,13 +267,7 @@ const MobileSidebar = () => {
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {open && (
-          <motion.div 
-            initial={{ x: '-100%' }} 
-            animate={{ x: 0 }} 
-            exit={{ x: '-100%' }} 
-            transition={{ duration: 0.3, ease: 'easeInOut' }} 
-            className="fixed inset-0 bg-white z-50 flex flex-col md:hidden"
-          >
+          <motion.div initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} transition={{ duration: 0.3, ease: 'easeInOut' }} className="fixed inset-0 bg-white z-50 flex flex-col md:hidden">
             {/* Header */}
             <div className="shrink-0 flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center gap-3">

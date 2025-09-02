@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Camera, MessageCircle, Users, Cloud, Sparkles, ArrowRight, CheckCircle, Leaf, Upload, Zap, Github, Linkedin, Mail } from 'lucide-react';
+import { Camera, MessageCircle, Users, Cloud, Sparkles, ArrowRight, CheckCircle, Upload, Zap, Github, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Navbar } from '@/components/Navbar';
